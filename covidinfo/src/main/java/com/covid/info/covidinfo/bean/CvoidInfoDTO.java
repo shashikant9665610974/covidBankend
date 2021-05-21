@@ -1,5 +1,7 @@
 package com.covid.info.covidinfo.bean;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,19 +11,22 @@ import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
 
-import org.springframework.stereotype.Component;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
-//@JsonPropertyOrder({ "FIPS", "Admin2", "Province_State", "Country_Region", "Last_Update", "Lat", "Long_", "Confirmed",
+//@JsonPropertyOrder({ "FIPS", "Admin2", "Province_State", "Country_Region", "Last_Update", "Lat", "long_", "Confirmed",
 //		"Deaths", "Recovered", "Active", "Combined_Key", "Incident_Rate", "Case_Fatality_Ratio" })
 //@Getter
 //@Setter
@@ -44,7 +49,7 @@ import lombok.*;
 //	private String lastUpdate;
 //	@JsonProperty("Lat")
 //	private String lat;
-//	@JsonProperty("Long_")
+//	@JsonProperty("long_")
 //	private String lng;
 //	@JsonProperty("Confirmed")
 //	private String confirmed;
@@ -66,71 +71,65 @@ import lombok.*;
 // Lombok annotations
 // Causes lombok to generate toString(), equals(), hashCode(), getter() &
 // setter(), and Required arguments constructor in one go.
-//@Data
+// @Data
 // Causes Lombok to implement the Builder design pattern for the Pojo class.
 // Usage can be seen in DefaultBookLoader.java -> createNewBook() method.
-//@Builder
+// @Builder
 // Causes Lombok to generate a constructor with no parameters.
-//@NoArgsConstructor
+// @NoArgsConstructor
 // // Causes Lombok to generate a constructor with 1 parameter for each field in
 // your class.
-//@AllArgsConstructor
+// @AllArgsConstructor
 // Spring framework annotation
 @Component
 public class CvoidInfoDTO {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@JsonIgnore
 	private long id;
 	@Column(name = "fips")
-	private String fips;
+	@JsonInclude(Include.NON_NULL)
+	private long fips;
 	@Column(name = "admin2")
+	@JsonInclude(Include.NON_NULL)
 	private String admin2;
 	@Column(name = "provinceState")
+	@JsonInclude(Include.NON_NULL)
 	private String provinceState;
 	@Column(name = "countryRegion")
+	@JsonInclude(Include.NON_NULL)
 	private String countryRegion;
 	@Column(name = "lastUpdate")
+	@JsonInclude(Include.NON_NULL)
 	private String lastUpdate;
 	@Column(name = "lat")
-	private String lat;
+	@JsonInclude(Include.NON_DEFAULT)
+	private float lat;
 	@Column(name = "lng")
-	private String lng;
+	@JsonInclude(Include.NON_DEFAULT)
+	private float lng;
 	@Column(name = "confirmed")
-	private String confirmed;
+	@JsonInclude(Include.NON_DEFAULT)
+	private long confirmed;
 	@Column(name = "deaths")
-	private String deaths;
+	@JsonInclude(Include.NON_DEFAULT)
+	private long deaths;
 	@Column(name = "recovered")
-	private String recovered;
+	@JsonInclude(Include.NON_DEFAULT)
+	private long recovered;
 	@Column(name = "Active")
-	private String Active;
+	@JsonInclude(Include.NON_DEFAULT)
+	private long Active;
 	@Column(name = "combinedKey")
+	@JsonInclude(Include.NON_DEFAULT)
 	private String combinedKey;
 	@Column(name = "incidentRate")
-	private String incidentRate;
+	@JsonInclude(Include.NON_DEFAULT)
+	private float incidentRate;
 	@Column(name = "caseFatalityRatio")
-	private String caseFatalityRatio;
-
-	public CvoidInfoDTO(long id, String fips, String admin2, String provinceState, String countryRegion,
-			String lastUpdate, String lat, String lng, String confirmed, String deaths, String recovered, String active,
-			String combinedKey, String incidentRate, String caseFatalityRatio) {
-		super();
-		this.id = id;
-		this.fips = fips;
-		this.admin2 = admin2;
-		this.provinceState = provinceState;
-		this.countryRegion = countryRegion;
-		this.lastUpdate = lastUpdate;
-		this.lat = lat;
-		this.lng = lng;
-		this.confirmed = confirmed;
-		this.deaths = deaths;
-		this.recovered = recovered;
-		Active = active;
-		this.combinedKey = combinedKey;
-		this.incidentRate = incidentRate;
-		this.caseFatalityRatio = caseFatalityRatio;
-	}
+	@JsonInclude(Include.NON_DEFAULT)
+	private float caseFatalityRatio;
 
 	public CvoidInfoDTO() {
 	}
@@ -143,11 +142,11 @@ public class CvoidInfoDTO {
 		this.id = id;
 	}
 
-	public String getFips() {
+	public long getFips() {
 		return fips;
 	}
 
-	public void setFips(String fips) {
+	public void setFips(long fips) {
 		this.fips = fips;
 	}
 
@@ -183,51 +182,51 @@ public class CvoidInfoDTO {
 		this.lastUpdate = lastUpdate;
 	}
 
-	public String getLat() {
+	public float getLat() {
 		return lat;
 	}
 
-	public void setLat(String lat) {
+	public void setLat(float lat) {
 		this.lat = lat;
 	}
 
-	public String getLng() {
+	public float getLng() {
 		return lng;
 	}
 
-	public void setLng(String lng) {
+	public void setLng(float lng) {
 		this.lng = lng;
 	}
 
-	public String getConfirmed() {
+	public long getConfirmed() {
 		return confirmed;
 	}
 
-	public void setConfirmed(String confirmed) {
+	public void setConfirmed(long confirmed) {
 		this.confirmed = confirmed;
 	}
 
-	public String getDeaths() {
+	public long getDeaths() {
 		return deaths;
 	}
 
-	public void setDeaths(String deaths) {
+	public void setDeaths(long deaths) {
 		this.deaths = deaths;
 	}
 
-	public String getRecovered() {
+	public long getRecovered() {
 		return recovered;
 	}
 
-	public void setRecovered(String recovered) {
+	public void setRecovered(long recovered) {
 		this.recovered = recovered;
 	}
 
-	public String getActive() {
+	public long getActive() {
 		return Active;
 	}
 
-	public void setActive(String active) {
+	public void setActive(long active) {
 		Active = active;
 	}
 
@@ -239,19 +238,40 @@ public class CvoidInfoDTO {
 		this.combinedKey = combinedKey;
 	}
 
-	public String getIncidentRate() {
+	public float getIncidentRate() {
 		return incidentRate;
 	}
 
-	public void setIncidentRate(String incidentRate) {
+	public void setIncidentRate(float incidentRate) {
 		this.incidentRate = incidentRate;
 	}
 
-	public String getCaseFatalityRatio() {
+	public float getCaseFatalityRatio() {
 		return caseFatalityRatio;
 	}
 
-	public void setCaseFatalityRatio(String caseFatalityRatio) {
+	public void setCaseFatalityRatio(float caseFatalityRatio) {
+		this.caseFatalityRatio = caseFatalityRatio;
+	}
+
+	public CvoidInfoDTO(long id, long fips, String admin2, String provinceState, String countryRegion,
+			String lastUpdate, float lat, float lng, long confirmed, long deaths, long recovered, long active,
+			String combinedKey, float incidentRate, float caseFatalityRatio) {
+		super();
+		this.id = id;
+		this.fips = fips;
+		this.admin2 = admin2;
+		this.provinceState = provinceState;
+		this.countryRegion = countryRegion;
+		this.lastUpdate = lastUpdate;
+		this.lat = lat;
+		this.lng = lng;
+		this.confirmed = confirmed;
+		this.deaths = deaths;
+		this.recovered = recovered;
+		Active = active;
+		this.combinedKey = combinedKey;
+		this.incidentRate = incidentRate;
 		this.caseFatalityRatio = caseFatalityRatio;
 	}
 

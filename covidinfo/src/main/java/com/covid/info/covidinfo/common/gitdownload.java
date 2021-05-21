@@ -26,6 +26,7 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.api.errors.TransportException;
+import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.covid.info.covidinfo.bean.CvoidInfoDTO;
@@ -39,7 +40,7 @@ public class gitdownload {
 	@Autowired
 	public CvoidInfoDTOService cvoidInfoDTOService;
 
-	public static void main(String[] args) throws IOException, URISyntaxException {
+	//public void downloadFormGit(){
 		// String repoUrl = "https://github.com/CSSEGISandData/COVID-19.git";
 		// String cloneDirectoryPath = "C:\\Users\\HP\\OneDrive\\Desktop\\C\\c11"; //
 		// Ex.in windows
@@ -52,11 +53,11 @@ public class gitdownload {
 		// System.out.println("Exception occurred while cloning repo");
 		// e.printStackTrace();
 		// }
-		// readfilesnames();
-		// readcsvfile();
-		// readermethod();
-	}
+		
+//	}
 
+	
+	//read file names one by one 
 	public static void readfilesnames() throws IOException {
 		File file = new File(
 				"C:\\Users\\HP\\OneDrive\\Desktop\\C\\c10\\csse_covid_19_data\\csse_covid_19_daily_reports\\");
@@ -75,6 +76,8 @@ public class gitdownload {
 		}
 	}
 
+	
+//need to call readfilesnames inside below method
 	public static List<CvoidInfoDTO> readermethod() throws IOException, URISyntaxException {
 		String csvFilePath = "C:\\Users\\HP\\OneDrive\\Desktop\\C\\c10\\csse_covid_19_data\\csse_covid_19_daily_reports\\01-01-2021.csv";
 		Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));
@@ -83,15 +86,15 @@ public class gitdownload {
 		List<CSVRecord> csvlist = csvParser.getRecords();
 		// CvoidInfoDTO cvoidInfoDTO = new CvoidInfoDTO();
 		List<CvoidInfoDTO> cvoidInfoDTOlist = new ArrayList<CvoidInfoDTO>();
-		for (int i = 1; i < csvlist.size(); i++) {
+		for (int i = 1; i < csvlist.size()-1; i++) {
 			CvoidInfoDTO cvoidInfoDTO = new CvoidInfoDTO();
-			int j=0;
-			cvoidInfoDTO.setId(j);
-			j++;
+//			int j = 0;
+//			cvoidInfoDTO.setId(j);
+//			j++;
 			if (csvlist.get(i).get(0).isEmpty()) {
-				cvoidInfoDTO.setFips("na");
+				cvoidInfoDTO.setFips(0);
 			} else {
-				cvoidInfoDTO.setFips(csvlist.get(i).get(0).toString());
+				cvoidInfoDTO.setFips(Long.parseLong(csvlist.get(i).get(0).toString()));
 			}
 			if (csvlist.get(i).get(1).isEmpty()) {
 				cvoidInfoDTO.setAdmin2("na");
@@ -111,37 +114,38 @@ public class gitdownload {
 			if (csvlist.get(i).get(4).isEmpty()) {
 				cvoidInfoDTO.setLastUpdate("na");
 			} else {
+
 				cvoidInfoDTO.setLastUpdate(csvlist.get(i).get(4).toString());
 			}
 			if (csvlist.get(i).get(5).isEmpty()) {
-				cvoidInfoDTO.setLat("na");
+				cvoidInfoDTO.setLat(0);
 			} else {
-				cvoidInfoDTO.setLat(csvlist.get(i).get(5).toString());
+				cvoidInfoDTO.setLat(Float.parseFloat(csvlist.get(i).get(5).toString()));
 			}
 			if (csvlist.get(i).get(6).isEmpty()) {
-				cvoidInfoDTO.setLng("na");
+				cvoidInfoDTO.setLng(0);
 			} else {
-				cvoidInfoDTO.setLng(csvlist.get(i).get(6).toString());
+				cvoidInfoDTO.setLng(Float.parseFloat(csvlist.get(i).get(6).toString()));
 			}
 			if (csvlist.get(i).get(7).isEmpty()) {
-				cvoidInfoDTO.setConfirmed("na");
+				cvoidInfoDTO.setConfirmed(0);
 			} else {
-				cvoidInfoDTO.setConfirmed(csvlist.get(i).get(7).toString());
+				cvoidInfoDTO.setConfirmed(Long.parseLong(csvlist.get(i).get(7).toString()));
 			}
 			if (csvlist.get(i).get(8).isEmpty()) {
-				cvoidInfoDTO.setDeaths("na");
+				cvoidInfoDTO.setDeaths(0);
 			} else {
-				cvoidInfoDTO.setDeaths(csvlist.get(i).get(8).toString());
+				cvoidInfoDTO.setDeaths(Long.parseLong(csvlist.get(i).get(8).toString()));
 			}
 			if (csvlist.get(i).get(9).isEmpty()) {
-				cvoidInfoDTO.setRecovered("na");
+				cvoidInfoDTO.setRecovered(0);
 			} else {
-				cvoidInfoDTO.setRecovered(csvlist.get(i).get(9).toString());
+				cvoidInfoDTO.setRecovered(Long.parseLong(csvlist.get(i).get(9).toString()));
 			}
 			if (csvlist.get(i).get(10).isEmpty()) {
-				cvoidInfoDTO.setActive("na");
+				cvoidInfoDTO.setActive(0);
 			} else {
-				cvoidInfoDTO.setActive(csvlist.get(i).get(10).toString());
+				cvoidInfoDTO.setActive(Long.parseLong(csvlist.get(i).get(10).toString()));
 			}
 			if (csvlist.get(i).get(11).isEmpty()) {
 				cvoidInfoDTO.setCombinedKey("na");
@@ -149,14 +153,14 @@ public class gitdownload {
 				cvoidInfoDTO.setCombinedKey(csvlist.get(i).get(11).toString());
 			}
 			if (csvlist.get(i).get(12).isEmpty()) {
-				cvoidInfoDTO.setIncidentRate("na");
+				cvoidInfoDTO.setIncidentRate(0);
 			} else {
-				cvoidInfoDTO.setIncidentRate(csvlist.get(i).get(12).toString());
+				cvoidInfoDTO.setIncidentRate(Float.parseFloat(csvlist.get(i).get(12).toString()));
 			}
 			if (csvlist.get(i).get(13).isEmpty()) {
-				cvoidInfoDTO.setCaseFatalityRatio("na");
+				cvoidInfoDTO.setCaseFatalityRatio(0);
 			} else {
-				cvoidInfoDTO.setCaseFatalityRatio(csvlist.get(i).get(13).toString());
+				cvoidInfoDTO.setCaseFatalityRatio(Float.parseFloat(csvlist.get(i).get(13).toString()));
 			}
 
 			//
@@ -187,8 +191,7 @@ public class gitdownload {
 	public List<CvoidInfoDTO> saveDataTODB() throws IOException, URISyntaxException {
 		List<CvoidInfoDTO> cvoidInfoDTOlist = readermethod();
 		for (int i = 0; i < cvoidInfoDTOlist.size(); i++) {
-			
-			
+
 			System.out.println("" + cvoidInfoDTOlist.get(i).getId());
 			System.out.println("" + cvoidInfoDTOlist.get(i).getFips());
 			System.out.println("" + cvoidInfoDTOlist.get(i).getAdmin2());
